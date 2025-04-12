@@ -23,8 +23,17 @@ export class TodoService {
     );
   }
 
-  addTask(title: string) {
-    return this.http.post(this.apiUrl, { title }).pipe(
+  addTask(title: string, dueDate?: Date | null) {
+    return this.http.post<{ _id: string, title: string, completed: boolean, dueDate?: Date }>(
+      this.apiUrl, 
+      { title, dueDate }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getUpcomingTasks() {
+    return this.http.get<any[]>(`${this.apiUrl}/upcoming`).pipe(
       catchError(this.handleError)
     );
   }

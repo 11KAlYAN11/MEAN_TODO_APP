@@ -13,10 +13,19 @@ import { TodoService } from './todo.service';
 })
 export class AppComponent implements OnInit {
   newTask = '';
+  dueDate: Date | null = null;
   tasks: any[] = [];
   isLoading = false;
   error: string | null = null;
   currentFilter: string = 'all';
+
+  today = new Date();
+
+  // Add this method to fix the error
+  isOverdue(dueDate: string | Date): boolean {
+    const due = new Date(dueDate);
+    return due < this.today;
+  }
 
   constructor(private todoService: TodoService) {}
 
@@ -49,13 +58,18 @@ export class AppComponent implements OnInit {
     if (this.newTask.trim()) {
       this.isLoading = true;
       this.error = null;
-      this.todoService.addTask(this.newTask.trim()).subscribe({
+      
+      // Convert dueDate to proper format if exists
+      const formattedDueDate = this.dueDate ? new Date(this.dueDate) : null;
+      
+      this.todoService.addTask(this.newTask.trim(), formattedDueDate).subscribe({
         next: () => {
           this.newTask = '';
-          this.loadTasks();
+          this.dueDate = null;
+          this.loadTasks(this.currentFilter);
         },
         error: (err) => {
-          this.error = 'Failed to add task';
+          this.error = err.error?.message || 'Failed to add task';
           this.isLoading = false;
         }
       });

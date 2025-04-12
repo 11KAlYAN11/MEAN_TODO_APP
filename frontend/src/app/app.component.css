@@ -121,3 +121,20 @@ li button {
   background: #d32f2f;
   margin-left: auto;
 }
+
+.due-date {
+  font-size: 0.8em;
+  color: #666;
+  margin-left: 10px;
+}
+
+.overdue {
+  color: #f44336;
+  font-weight: bold;
+}
+
+input[type="datetime-local"] {
+  padding: 8px;
+  margin-left: 10px;
+  border: 1px solid #ddd;
+}

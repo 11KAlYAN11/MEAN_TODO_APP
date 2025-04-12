@@ -24,17 +24,29 @@ router.patch('/:id/toggle', async (req, res) => {
     res.json(task);
 });
 
-// ADD task
+// Modified POST endpoint
 router.post('/', async (req, res) => {
-    const newTask = new Task({ title: req.body.title });
-    const savedTask = await newTask.save();
-    res.json(savedTask);
+    const newTask = new Task({ 
+        title: req.body.title,
+        dueDate: req.body.dueDate || null 
+    });
+    await newTask.save();
+    res.status(201).json(newTask);
 });
 
 // DELETE task
 router.delete('/:id', async (req, res) => {
     await Task.findByIdAndDelete(req.params.id);
     res.json({ message: 'Task deleted' });
+});
+
+// New endpoint for date filtering
+router.get('/upcoming', async (req, res) => {
+    const tasks = await Task.find({ 
+        completed: false,
+        dueDate: { $ne: null, $gt: new Date() }
+    }).sort({ dueDate: 1 }); // Sort by nearest due date
+    res.json(tasks);
 });
 
 module.exports = router;
