@@ -4,9 +4,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const config = require('./config');
 
 const app = express();
-const PORT = 3000;
+const PORT = config.backendPort;
 
 // Middleware
 app.use(cors({

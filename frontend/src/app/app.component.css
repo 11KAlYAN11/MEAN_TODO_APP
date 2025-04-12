@@ -196,6 +196,12 @@ input[type="checkbox"] {
   color: #007bff;
 }
 
+/* Ensure completed tasks are styled with strike-through */
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
 /* Delete Button */
 .delete-btn {
   background-color: #dc3545;

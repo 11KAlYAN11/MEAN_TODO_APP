@@ -135,3 +135,51 @@ curl -X DELETE http://localhost:3000/api/tasks/<task_id>
   - Check console errors in browser
   - Verify API responses in Network tab
   - Run `ng serve --open` to debug
+
+## Application Architecture
+
+The MEAN Stack Todo Application follows a modular architecture with clear separation of concerns between the frontend and backend. Below is an overview of the architecture:
+
+### Architecture Overview
+1. **Frontend (Angular)**:
+   - Handles user interactions and displays data.
+   - Communicates with the backend via RESTful APIs.
+   - Built using Angular components, services, and modules.
+
+2. **Backend (Node.js + Express)**:
+   - Provides RESTful APIs for CRUD operations.
+   - Handles business logic and interacts with the database.
+   - Uses middleware for request validation and error handling.
+
+3. **Database (MongoDB)**:
+   - Stores tasks and their metadata (e.g., title, due date, completion status).
+   - Provides a flexible schema for data storage.
+
+### Flow Diagram
+Below is a simplified flow diagram of the application:
+
+```
++-------------+        HTTP Requests         +-----------------+        Database Queries        +-------------+
+|             | --------------------------> |                 | ----------------------------> |             |
+|   Frontend  |                             |     Backend     |                                |   MongoDB    |
+|  (Angular)  | <-------------------------- | (Node.js + API) | <---------------------------- | (Database)   |
+|             |        JSON Responses       |                 |        Query Results          |             |
++-------------+                             +-----------------+                                +-------------+
+```
+
+### Generating a Visual Diagram
+To create a visual diagram, you can use tools like [Mermaid](https://mermaid-js.github.io/mermaid/) or [Draw.io](https://app.diagrams.net/). Below is a Mermaid diagram code snippet:
+
+```mermaid
+graph TD
+    A[Frontend (Angular)] -->|HTTP Requests| B[Backend (Node.js + Express)]
+    B -->|Database Queries| C[MongoDB]
+    C -->|Query Results| B
+    B -->|JSON Responses| A
+```
+
+To render this diagram:
+1. Copy the code above.
+2. Paste it into a Markdown file or a tool that supports Mermaid diagrams (e.g., GitHub, VS Code with Mermaid extension).
+
+This architecture ensures scalability, maintainability, and a clear separation of concerns.
