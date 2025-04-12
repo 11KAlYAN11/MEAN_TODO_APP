@@ -21,10 +21,19 @@ export class AppComponent implements OnInit {
 
   today = new Date();
 
-  // Add this method to fix the error
   isOverdue(dueDate: string | Date): boolean {
-    const due = new Date(dueDate);
-    return due < this.today;
+    if (!dueDate) return false;
+    const date = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
+    // Return false if invalid date
+    if (isNaN(date.getTime())) return false;
+    return date < new Date();
+  }
+
+  formatDueDate(dueDate: string | Date): string {
+    if (!dueDate) return '';
+    const date = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
+    if (isNaN(date.getTime())) return '';
+    return date.toLocaleString(); // Format dueDate for display
   }
 
   constructor(private todoService: TodoService) {}
@@ -39,12 +48,14 @@ export class AppComponent implements OnInit {
     this.currentFilter = filter;
     this.todoService.getTasks('all').subscribe({ // Always get all tasks
       next: (tasks) => {
+        console.log('Received tasks:', tasks); // Debug log
         // Apply filter locally as fallback
         this.tasks = (tasks as any[]).filter(task => {
           if (filter === 'active') return !task.completed;
           if (filter === 'completed') return task.completed;
           return true; // 'all' filter
         });
+        console.log('Filtered tasks:', this.tasks); // Debug log
         this.isLoading = false;
       },
       error: (err) => {

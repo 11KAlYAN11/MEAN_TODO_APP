@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -12,7 +12,11 @@ export class TodoService {
   constructor(private http: HttpClient) {}
 
   getTasks(filter: string = 'all') {
-    return this.http.get(`${this.apiUrl}?filter=${filter}`).pipe(
+    return this.http.get<any[]>(`${this.apiUrl}?filter=${filter}`).pipe(
+      map(tasks => tasks.map(task => ({
+        ...task,
+        dueDate: task.dueDate ? new Date(task.dueDate) : null // Ensure dueDate is converted to Date
+      }))),
       catchError(this.handleError)
     );
   }
@@ -24,9 +28,14 @@ export class TodoService {
   }
 
   addTask(title: string, dueDate?: Date | null) {
-    return this.http.post<{ _id: string, title: string, completed: boolean, dueDate?: Date }>(
+    // Convert to ISO string if date exists
+    const payload = {
+      title,
+      dueDate: dueDate ? dueDate.toISOString() : null
+    };
+    return this.http.post<{ _id: string, title: string, completed: boolean, dueDate?: string }>(
       this.apiUrl, 
-      { title, dueDate }
+      payload
     ).pipe(
       catchError(this.handleError)
     );

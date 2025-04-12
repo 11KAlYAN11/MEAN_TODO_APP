@@ -40,8 +40,9 @@
            (change)="toggleTaskCompletion(task._id)">
     <span [class.completed-text]="task.completed">{{ task.title }}</span>
     
+    <!-- Display due date -->
     <span class="due-date" *ngIf="task.dueDate">
-      Due: {{ task.dueDate | date:'medium' }}
+      Due: {{ formatDueDate(task.dueDate) }}
     </span>
     <span class="overdue" *ngIf="task.dueDate && !task.completed && isOverdue(task.dueDate)">
       (OVERDUE)

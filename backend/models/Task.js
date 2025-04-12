@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const TaskSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -8,14 +10,10 @@ const TaskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    dueDate: {  // New field
+    dueDate: {  // New field for due date
         type: Date,
-        default: null,
-        validate: {
-            validator: function(value) {
-                return !value || value > new Date(); // Optional but must be future
-            },
-            message: 'Due date must be in the future'
-        }
+        default: null
     }
 }, { timestamps: true }); // Adds createdAt/updatedAt automatically
+
+module.exports = mongoose.model('Task', TaskSchema);

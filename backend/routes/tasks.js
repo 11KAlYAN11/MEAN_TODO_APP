@@ -10,7 +10,13 @@ router.get('/', async (req, res) => {
     if (filter === 'active') query.completed = false;
     if (filter === 'completed') query.completed = true;
     
-    const tasks = await Task.find(query).sort({ createdAt: -1 });
+    let tasks = await Task.find(query).sort({ createdAt: -1 });
+    // Convert dates to ISO strings
+    tasks = tasks.map(task => ({
+      ...task._doc,
+      dueDate: task.dueDate ? task.dueDate.toISOString() : null
+    }));
+    console.log('Returning tasks:', tasks);
     res.json(tasks);
 });
 
