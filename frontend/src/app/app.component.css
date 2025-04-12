@@ -2,16 +2,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header h2 {
+  font-size: 1.8rem;
+  color: #333;
 }
 
 .refresh-btn {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.refresh-btn:hover {
+  background-color: #45a049;
 }
 
 .refresh-btn:disabled {
@@ -20,10 +31,13 @@
 }
 
 .container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .loading {
@@ -47,27 +61,37 @@ form {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  align-items: center;
 }
 
-input {
+form input[type="text"] {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 1rem;
 }
 
-button {
-  padding: 8px 16px;
+form input[type="datetime-local"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+form button {
+  padding: 10px 20px;
   background: #1976d2;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
-button:disabled {
-  background: #cccccc;
-  cursor: not-allowed;
+form button:hover {
+  background: #155a9c;
 }
 
 ul {
@@ -78,22 +102,79 @@ ul {
 
 li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  justify-content: space-between;
+  padding: 15px;
   border-bottom: 1px solid #eee;
+  background: white;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li .task-details {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+li .task-details input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+li .task-details span {
+  font-size: 1rem;
+  color: #333;
+}
+
+li .task-details .completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+li .due-date {
+  font-size: 0.9rem;
+  color: #666;
+  margin-left: 10px;
+}
+
+li .overdue {
+  color: #f44336;
+  font-weight: bold;
+}
+
+li button {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+li button:hover {
+  background: #b71c1c;
 }
 
 .filters {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .filters button {
+  padding: 8px 16px;
   background: #f0f0f0;
   color: #333;
   border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
 .filters button.active {
@@ -101,36 +182,8 @@ li {
   color: white;
 }
 
-li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-li input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-}
-
-.completed {
-  text-decoration: line-through;
-  color: #888;
-}
-
-li button {
-  background: #d32f2f;
-  margin-left: auto;
-}
-
-.due-date {
-  font-size: 0.8em;
-  color: #666;
-  margin-left: 10px;
-}
-
-.overdue {
-  color: #f44336;
-  font-weight: bold;
+.filters button:hover {
+  background: #e0e0e0;
 }
 
 input[type="datetime-local"] {
