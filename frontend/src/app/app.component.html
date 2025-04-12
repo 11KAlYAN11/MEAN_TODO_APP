@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="header">
+    <h2>To-Do List</h2>
+    <button (click)="loadTasks(currentFilter)" [disabled]="isLoading" class="refresh-btn">
+      Refresh
+    </button>
+  </div>
+  
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+  
+  <!-- Error Message -->
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- Filter Controls -->
+  <div class="filters">
+    <button (click)="loadTasks('all')" [class.active]="currentFilter === 'all'">All</button>
+    <button (click)="loadTasks('active')" [class.active]="currentFilter === 'active'">Active</button>
+    <button (click)="loadTasks('completed')" [class.active]="currentFilter === 'completed'">Completed</button>
+  </div>
+
+  <!-- Task Form -->
+  <form (submit)="addTask()">
+    <input type="text" 
+           [(ngModel)]="newTask" 
+           name="task" 
+           placeholder="Enter task"
+           [disabled]="isLoading">
+    <button type="submit" [disabled]="isLoading">Add</button>
+  </form>
+
+  <!-- Task List -->
+  <ul *ngIf="!isLoading">
+    <li *ngFor="let task of tasks">
+      <input type="checkbox" 
+             [checked]="task.completed"
+             (change)="toggleTaskCompletion(task._id)"
+             [disabled]="isLoading">
+      <span [class.completed]="task.completed">{{ task.title }}</span>
+      <button (click)="deleteTask(task._id)" [disabled]="isLoading">Delete</button>
+    </li>
+  </ul>
+</div>

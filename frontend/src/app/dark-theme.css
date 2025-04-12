@@ -1,0 +1,19 @@
+/* Dark Theme Variables */
+:root {
+  --primary: #9c27b0;
+  --fuchsia: #ff00ff;
+  --secondary: #ff4081;
+  --dark-bg: #121212;
+  --surface: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
