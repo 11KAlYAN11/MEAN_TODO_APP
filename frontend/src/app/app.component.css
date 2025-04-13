@@ -1,7 +1,7 @@
 /* General Reset & Base */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e9f0ff 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #e873da 0%, #ffffff 100%);
   color: #212529;
   margin: 0;
   padding: 0;
@@ -19,7 +19,7 @@ body {
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border-top: 5px solid #d63384;
+  border-top: 5px solid #dd1fba;
 }
 
 /* Heading */
@@ -55,13 +55,13 @@ button:active {
 
 /* Add / Refresh Buttons */
 .add-btn {
-  background: #d63384;
+  background: #3382d6;
   color: white;
   margin-left: 10px;
 }
 
 .add-btn:hover {
-  background: #c2186a;
+  background: #81c248;
 }
 
 .refresh-btn {
@@ -72,7 +72,7 @@ button:active {
 }
 
 .refresh-btn:hover {
-  background: #218838;
+  background: #9b1881;
 }
 
 /* Filter Buttons */
@@ -107,7 +107,8 @@ form {
   margin-bottom: 25px;
 }
 
-input[type="text"], input[type="datetime-local"] {
+input[type="text"],
+input[type="datetime-local"] {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -130,7 +131,7 @@ li {
   padding: 15px 20px;
   margin-bottom: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-  animation: fadeIn 0.4s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 li:hover {
@@ -154,7 +155,7 @@ input[type="checkbox"] {
 }
 
 .due-date {
-  margin-right: 15px;
+  margin-right: 20px;
   font-size: 0.9rem;
   color: #555;
   position: relative;
@@ -209,7 +210,7 @@ input[type="checkbox"] {
   padding: 8px 14px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
-  order: 2; /* Ensure delete button appears after edit button */
+  order: 2;
 }
 
 .delete-btn:hover {
@@ -218,26 +219,26 @@ input[type="checkbox"] {
 
 /* Add styles for the edit button */
 .edit-btn {
-  background-color: #007BFF; /* Best blue color */
+  background-color: #007BFF;
   color: white;
   border: none;
   border-radius: 4px;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  margin-right: 10px; /* Add consistent spacing between edit and delete buttons */
-  order: 1; /* Ensure edit button appears before delete button */
+  margin-right: 10px;
+  order: 1;
 }
 
 .edit-btn:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
 }
 
 /* Container for vertically stacking edit/delete buttons */
 .action-buttons {
   display: flex;
-  gap: 8px; /* Space between buttons */
-  justify-content: flex-end; /* Align buttons to the right */
-  align-items: center; /* Vertically align buttons */
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* Task Item */
@@ -258,9 +259,13 @@ input[type="checkbox"] {
   margin-left: 12px;
 }
 
+.spacer {
+  flex-grow: 1; /* Pushes the action buttons to the right */
+}
+
 .action-buttons {
   display: flex;
-  gap: 8px; /* space between buttons */
+  gap: 8px;
 }
 
 .edit-btn,
