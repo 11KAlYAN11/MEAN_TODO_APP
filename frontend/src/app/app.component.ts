@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
   error: string | null = null;
   currentFilter: string = 'all';
 
+  editMode: { id: string | null; title: string; dueDate: Date | null } = { id: null, title: '', dueDate: null };
+
   today = new Date();
 
   isOverdue(dueDate: string | Date): boolean {
@@ -113,5 +115,30 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  startEditTask(task: any) {
+    this.editMode = { id: task._id, title: task.title, dueDate: task.dueDate ? new Date(task.dueDate) : null };
+  }
+
+  saveEditTask() {
+    if (this.editMode.id && this.editMode.title.trim()) {
+      this.isLoading = true;
+      this.error = null;
+      this.todoService.editTask(this.editMode.id, this.editMode.title.trim(), this.editMode.dueDate).subscribe({
+        next: () => {
+          this.editMode = { id: null, title: '', dueDate: null };
+          this.loadTasks(this.currentFilter);
+        },
+        error: (err) => {
+          this.error = 'Failed to update task';
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+
+  cancelEditTask() {
+    this.editMode = { id: null, title: '', dueDate: null };
   }
 }

@@ -55,4 +55,25 @@ router.get('/upcoming', async (req, res) => {
     res.json(tasks);
 });
 
+// Update an existing task
+router.put('/:id', async (req, res) => {
+    console.log('Request to update task:', req.params.id, req.body); // Log request details
+    try {
+        const { title, dueDate } = req.body;
+        const task = await Task.findByIdAndUpdate(
+            req.params.id,
+            { title, dueDate },
+            { new: true }
+        );
+        if (!task) {
+            console.error('Task not found:', req.params.id); // Log error if task not found
+            return res.status(404).json({ error: 'Task not found' });
+        }
+        res.json(task);
+    } catch (error) {
+        console.error('Error updating task:', error.message); // Log error details
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;

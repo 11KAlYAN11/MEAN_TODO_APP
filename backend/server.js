@@ -12,7 +12,7 @@ const PORT = config.backendPort;
 // Middleware
 app.use(cors({
   origin: 'http://localhost:4200',
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Added PUT method
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());

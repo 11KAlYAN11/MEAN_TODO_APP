@@ -32,6 +32,17 @@
   <button type="submit">Add</button>
 </form>
 
+<!-- Edit Task Form -->
+<div *ngIf="editMode.id" class="edit-form">
+  <h3>Edit Task</h3>
+  <form (submit)="saveEditTask()">
+    <input type="text" [(ngModel)]="editMode.title" name="editTitle" placeholder="Edit task title">
+    <input type="datetime-local" [(ngModel)]="editMode.dueDate" name="editDueDate">
+    <button type="submit">Save</button>
+    <button type="button" (click)="cancelEditTask()">Cancel</button>
+  </form>
+</div>
+
 <!-- Display due dates in list -->
 <ul>
   <li *ngFor="let task of tasks" [class.completed]="task.completed">
@@ -48,6 +59,7 @@
       (OVERDUE)
     </span>
     
+    <button class="edit-btn" (click)="startEditTask(task)">Edit</button>
     <button class="delete-btn" 
             (click)="deleteTask(task._id)"
             [disabled]="isLoading">

@@ -41,6 +41,16 @@ export class TodoService {
     );
   }
 
+  editTask(id: string, title: string, dueDate?: Date | null) {
+    const payload = {
+      title,
+      dueDate: dueDate ? dueDate.toISOString() : null
+    };
+    return this.http.put(`${this.apiUrl}/${id}`, payload).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getUpcomingTasks() {
     return this.http.get<any[]>(`${this.apiUrl}/upcoming`).pipe(
       catchError(this.handleError)
