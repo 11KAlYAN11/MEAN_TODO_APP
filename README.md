@@ -170,6 +170,8 @@ Below is a simplified flow diagram of the application:
 ### Generating a Visual Diagram
 To create a visual diagram, you can use tools like [Mermaid](https://mermaid-js.github.io/mermaid/) or [Draw.io](https://app.diagrams.net/). Below is a Mermaid diagram code snippet:
 
+![alt text](frontend/src/assets/image.png)
+
 ```mermaid
 graph TD
     A[Frontend (Angular)] -->|HTTP Requests| B[Backend (Node.js + Express)]
