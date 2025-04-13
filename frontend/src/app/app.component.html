@@ -45,11 +45,11 @@
 
 <!-- Display due dates in list -->
 <ul>
-  <li *ngFor="let task of tasks" [class.completed]="task.completed">
+  <li class="task-item" *ngFor="let task of tasks" [class.completed]="task.completed">
     <input type="checkbox" 
            [checked]="task.completed"
            (change)="toggleTaskCompletion(task._id)">
-    <span [class.completed-text]="task.completed">{{ task.title }}</span>
+    <span class="task-name">{{ task.title }}</span>
     
     <!-- Display due date -->
     <span class="due-date" *ngIf="task.dueDate">
@@ -59,12 +59,15 @@
       (OVERDUE)
     </span>
     
-    <button class="edit-btn" (click)="startEditTask(task)">Edit</button>
-    <button class="delete-btn" 
-            (click)="deleteTask(task._id)"
-            [disabled]="isLoading">
-      Delete
-    </button>
+    <!-- Horizontal button wrapper -->
+    <div class="action-buttons">
+      <button class="edit-btn" (click)="startEditTask(task)">Edit</button>
+      <button class="delete-btn" 
+              (click)="deleteTask(task._id)"
+              [disabled]="isLoading">
+        Delete
+      </button>
+    </div>
   </li>
 </ul>
 </div>
