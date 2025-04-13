@@ -44,7 +44,7 @@ export class TodoService {
   editTask(id: string, title: string, dueDate?: Date | null) {
     const payload = {
       title,
-      dueDate: dueDate ? dueDate.toISOString() : null
+      dueDate: dueDate instanceof Date ? dueDate.toISOString() : dueDate // Ensure dueDate is a valid Date object
     };
     return this.http.put(`${this.apiUrl}/${id}`, payload).pipe(
       catchError(this.handleError)
