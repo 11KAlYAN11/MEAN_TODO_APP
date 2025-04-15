@@ -21,6 +21,9 @@ import { RouterLink } from '@angular/router';
             <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="Choose username" required>
           </div>
           <div class="form-group">
+            <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
             <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Choose password" required>
           </div>
           <button type="submit" class="auth-button">Sign Up</button>
@@ -28,6 +31,7 @@ import { RouterLink } from '@angular/router';
         
         <div *ngIf="error" class="error">{{ error }}</div>
         <p class="auth-link">Already have an account? <a routerLink="/login">Login</a></p>
+        <p class="auth-link">Forgot password? <a routerLink="/reset-password">Reset it</a></p>
       </div>
     </div>
   `,
@@ -124,6 +128,7 @@ import { RouterLink } from '@angular/router';
 })
 export class RegisterComponent {
   username: string = '';
+  email: string = '';
   password: string = '';
   error: string | null = null;
 
@@ -135,6 +140,7 @@ export class RegisterComponent {
   handleRegister() {
     this.http.post('http://localhost:3000/api/auth/register', {
       username: this.username,
+      email: this.email,
       password: this.password
     }).subscribe({
       next: () => {
