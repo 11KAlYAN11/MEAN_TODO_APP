@@ -26,14 +26,18 @@ export class LoginComponent {
         })
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
-        const data = await response.json();
+        // Store user info in localStorage for persistence
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('username', data.username);
         this.router.navigate(['/tasks']);
       } else {
-        this.error = 'Invalid username or password';
+        this.error = data.message || 'Invalid username or password';
       }
     } catch (error) {
-      this.error = 'Error logging in';
+      this.error = 'Server error. Please try again later.';
     }
   }
 }
