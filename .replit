@@ -1,0 +1,38 @@
+modules = ["nodejs-20", "web"]
+run = "npm start"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "npm start"]
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 4200
+externalPort = 4200
+exposeLocalhost = true
+
+[workflows]
+runButton = "Start Frontend"
+
+[[workflows.workflow]]
+name = "Start Backend"
+author = 39935950
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm install && node server.js"
+
+[[workflows.workflow]]
+name = "Start Frontend"
+author = 39935950
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm install && npm start"
