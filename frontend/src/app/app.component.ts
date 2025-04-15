@@ -23,6 +23,10 @@ export class AppComponent implements OnInit {
 
   today = new Date();
 
+  username: string = '';
+  password: string = '';
+  isLoggedIn: boolean = false;
+
   isOverdue(dueDate: string | Date): boolean {
     if (!dueDate) return false;
     const date = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
@@ -140,5 +144,14 @@ export class AppComponent implements OnInit {
 
   cancelEditTask() {
     this.editMode = { id: null, title: '', dueDate: null };
+  }
+
+  handleLogin() {
+    if (this.username === 'default' && this.password === 'default') {
+      this.isLoggedIn = true;
+      this.loadTasks();
+    } else {
+      this.error = 'Invalid username or password';
+    }
   }
 }

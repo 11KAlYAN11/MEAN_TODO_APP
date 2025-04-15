@@ -13,7 +13,7 @@ const PORT = config.backendPort;
 app.use(cors({
   origin: 'http://localhost:4200',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Added PUT method
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'user-id']
 }));
 app.use(bodyParser.json());
 

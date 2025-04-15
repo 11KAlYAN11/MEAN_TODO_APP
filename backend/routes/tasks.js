@@ -2,14 +2,20 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 
-// GET tasks with filtering
+// Middleware to extract userId (for demonstration purposes, assuming userId is passed in headers)
+router.use((req, res, next) => {
+    req.userId = req.headers['user-id'] || 'default'; // Use 'default' for guest users
+    next();
+});
+
+// GET tasks with filtering for the logged-in user
 router.get('/', async (req, res) => {
     const { filter } = req.query;
-    let query = {};
-    
+    let query = { userId: req.userId };
+
     if (filter === 'active') query.completed = false;
     if (filter === 'completed') query.completed = true;
-    
+
     let tasks = await Task.find(query).sort({ createdAt: -1 });
     // Convert dates to ISO strings
     tasks = tasks.map(task => ({
@@ -30,11 +36,12 @@ router.patch('/:id/toggle', async (req, res) => {
     res.json(task);
 });
 
-// Modified POST endpoint
+// Modified POST endpoint to include userId
 router.post('/', async (req, res) => {
     const newTask = new Task({ 
         title: req.body.title,
-        dueDate: req.body.dueDate || null 
+        dueDate: req.body.dueDate || null,
+        userId: req.userId
     });
     await newTask.save();
     res.status(201).json(newTask);

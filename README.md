@@ -184,10 +184,4 @@ To render this diagram:
 1. Copy the code above.
 2. Paste it into a Markdown file or a tool that supports Mermaid diagrams (e.g., GitHub, VS Code with Mermaid extension).
 
-## Note
-- You can use a single backend to serve both Angular and React frontends. There's no need to maintain two separate backends for different frontends.
-- like run backend on 3000
-- Angular front end on 4200
-- React Frontend on 3001
-
 This architecture ensures scalability, maintainability, and a clear separation of concerns.

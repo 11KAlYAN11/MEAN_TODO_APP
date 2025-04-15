@@ -13,6 +13,10 @@ const TaskSchema = new mongoose.Schema({
     dueDate: {  // New field for due date
         type: Date,
         default: null
+    },
+    userId: {
+        type: mongoose.Schema.Types.Mixed, // Allow both ObjectId and string
+        required: true
     }
 }, { timestamps: true }); // Adds createdAt/updatedAt automatically
 

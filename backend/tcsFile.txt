@@ -1,0 +1,120 @@
+const request = require('supertest');
+const app = require('../server'); // Import the Express app
+const mongoose = require('mongoose');
+const Task = require('../models/Task');
+const server = require('../server'); // Import the server instance
+
+// Use a separate collection for testing
+let TestTask;
+beforeAll(async () => {
+  const testDb = mongoose.connection.useDb('testtasks'); // Switch to 'testtasks' database
+  TestTask = testDb.model('Task', Task.schema); // Bind Task model to the test database
+});
+
+// Clear the test collection before each test
+beforeEach(async () => {
+  await TestTask.deleteMany({});
+});
+
+// Drop the test collection after all tests
+afterAll(async () => {
+  await mongoose.connection.dropDatabase(); // Drop the 'testtasks' database
+  await mongoose.connection.close();
+  server.close(); // Close the server
+});
+
+/**
+ * Test Suite for Task Routes
+ */
+describe('Task Routes', () => {
+  /**
+   * Test Case: Add a new task
+   */
+  it('should add a new task', async () => {
+    const newTask = { title: 'Test Task', dueDate: '2025-04-20T00:00:00Z' };
+
+    const response = await request(app)
+      .post('/api/tasks')
+      .send(newTask)
+      .expect(201);
+
+    expect(response.body.title).toBe(newTask.title);
+    expect(new Date(response.body.dueDate).toISOString().split('.')[0] + 'Z').toBe(newTask.dueDate); // Normalize dueDate comparison
+  });
+
+  /**
+   * Test Case: Edit an existing task
+   */
+  it('should edit an existing task', async () => {
+    const task = new TestTask({ title: 'Original Task', dueDate: '2025-04-20T00:00:00Z' });
+    await task.save();
+
+    const updatedTask = { title: 'Updated Task', dueDate: '2025-04-25T00:00:00Z' };
+
+    const response = await request(app)
+      .put(`/api/tasks/${task._id}`)
+      .send(updatedTask)
+      .expect(200);
+
+    expect(response.body.title).toBe(updatedTask.title);
+    expect(new Date(response.body.dueDate).toISOString().split('.')[0] + 'Z').toBe(updatedTask.dueDate); // Normalize dueDate comparison
+  });
+
+  /**
+   * Test Case: Delete a task
+   */
+  it('should delete a task', async () => {
+    const task = new TestTask({ title: 'Task to Delete', dueDate: '2025-04-20T00:00:00Z' });
+    await task.save();
+
+    await request(app)
+      .delete(`/api/tasks/${task._id}`)
+      .expect(200);
+
+    const deletedTask = await TestTask.findById(task._id);
+    expect(deletedTask).toBeNull();
+  });
+
+  /**
+   * Test Case: Fetch all tasks
+   */
+  it('should fetch all tasks', async () => {
+    const tasks = [
+      { title: 'Task 1', dueDate: '2025-04-20T00:00:00Z' },
+      { title: 'Task 2', dueDate: '2025-04-21T00:00:00Z' },
+    ];
+    await TestTask.insertMany(tasks);
+
+    const response = await request(app)
+      .get('/api/tasks')
+      .expect(200);
+
+    expect(response.body.length).toBe(tasks.length);
+  });
+
+  /**
+   * Test Case: Handle invalid task ID
+   */
+  it('should return 404 for invalid task ID', async () => {
+    const invalidId = new mongoose.Types.ObjectId(); // Use 'new' keyword
+
+    const response = await request(server)
+      .put(`/api/tasks/${invalidId}`)
+      .send({ title: 'Invalid Task' })
+      .expect(404);
+
+    expect(response.body.error).toBe('Task not found');
+  });
+
+  /**
+   * Test Case: Handle missing fields when adding a task
+   */
+  it('should return 400 for missing fields when adding a task', async () => {
+    const response = await request(app)
+      .post('/api/tasks')
+      .send({})
+      .expect(400);
+
+    expect(response.body.error).toBeDefined();
+  });
+});

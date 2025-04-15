@@ -1,4 +1,13 @@
-<div class="container">
+<div *ngIf="!isLoggedIn" class="login-form">
+  <h3>Login</h3>
+  <form (submit)="handleLogin()">
+    <input type="text" [(ngModel)]="username" name="username" placeholder="Username" required>
+    <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<div *ngIf="isLoggedIn" class="container">
   <div class="header">
     <h2>To-Do List</h2>
     <button (click)="loadTasks(currentFilter)" [disabled]="isLoading" class="refresh-btn">
@@ -20,57 +29,57 @@
   </div>
 
   <!-- Add date picker to form -->
-<form (submit)="addTask()">
-  <input type="text" [(ngModel)]="newTask" name="task" placeholder="Enter task">
-  
-  <!-- Date picker -->
-  <input type="datetime-local" 
-         [(ngModel)]="dueDate"
-         name="dueDate"
-         [min]="today | date:'yyyy-MM-ddTHH:mm'">
-  
-  <button type="submit">Add</button>
-</form>
-
-<!-- Edit Task Form -->
-<div *ngIf="editMode.id" class="edit-form">
-  <h3>Edit Task</h3>
-  <form (submit)="saveEditTask()">
-    <input type="text" [(ngModel)]="editMode.title" name="editTitle" placeholder="Edit task title">
-    <input type="datetime-local" [(ngModel)]="editMode.dueDate" name="editDueDate">
-    <button type="submit">Save</button>
-    <button type="button" (click)="cancelEditTask()">Cancel</button>
+  <form (submit)="addTask()">
+    <input type="text" [(ngModel)]="newTask" name="task" placeholder="Enter task">
+    
+    <!-- Date picker -->
+    <input type="datetime-local" 
+           [(ngModel)]="dueDate"
+           name="dueDate"
+           [min]="today | date:'yyyy-MM-ddTHH:mm'">
+    
+    <button type="submit">Add</button>
   </form>
-</div>
 
-<!-- Display due dates in list -->
-<ul>
-  <li class="task-item" *ngFor="let task of tasks" [class.completed]="task.completed">
-    <input type="checkbox" 
-           [checked]="task.completed"
-           (change)="toggleTaskCompletion(task._id)">
-    <span class="task-name">{{ task.title }}</span>
-    
-    <!-- Display due date -->
-    <span class="due-date" *ngIf="task.dueDate">
-      Due: {{ formatDueDate(task.dueDate) }}
-    </span>
-    <span class="overdue" *ngIf="task.dueDate && !task.completed && isOverdue(task.dueDate)">
-      (OVERDUE)
-    </span>
-    
-    <!-- Add a wrapper for spacing -->
-    <div class="spacer"></div>
+  <!-- Edit Task Form -->
+  <div *ngIf="editMode.id" class="edit-form">
+    <h3>Edit Task</h3>
+    <form (submit)="saveEditTask()">
+      <input type="text" [(ngModel)]="editMode.title" name="editTitle" placeholder="Edit task title">
+      <input type="datetime-local" [(ngModel)]="editMode.dueDate" name="editDueDate">
+      <button type="submit">Save</button>
+      <button type="button" (click)="cancelEditTask()">Cancel</button>
+    </form>
+  </div>
 
-    <!-- Horizontal button wrapper -->
-    <div class="action-buttons">
-      <button class="edit-btn" (click)="startEditTask(task)">Edit</button>
-      <button class="delete-btn" 
-              (click)="deleteTask(task._id)"
-              [disabled]="isLoading">
-        Delete
-      </button>
-    </div>
-  </li>
-</ul>
+  <!-- Display due dates in list -->
+  <ul>
+    <li class="task-item" *ngFor="let task of tasks" [class.completed]="task.completed">
+      <input type="checkbox" 
+             [checked]="task.completed"
+             (change)="toggleTaskCompletion(task._id)">
+      <span class="task-name">{{ task.title }}</span>
+      
+      <!-- Display due date -->
+      <span class="due-date" *ngIf="task.dueDate">
+        Due: {{ formatDueDate(task.dueDate) }}
+      </span>
+      <span class="overdue" *ngIf="task.dueDate && !task.completed && isOverdue(task.dueDate)">
+        (OVERDUE)
+      </span>
+      
+      <!-- Add a wrapper for spacing -->
+      <div class="spacer"></div>
+
+      <!-- Horizontal button wrapper -->
+      <div class="action-buttons">
+        <button class="edit-btn" (click)="startEditTask(task)">Edit</button>
+        <button class="delete-btn" 
+                (click)="deleteTask(task._id)"
+                [disabled]="isLoading">
+          Delete
+        </button>
+      </div>
+    </li>
+  </ul>
 </div>
