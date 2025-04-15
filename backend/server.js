@@ -27,7 +27,10 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Routes
 const taskRoutes = require('./routes/tasks');
+const authRoutes = require('./routes/auth');
+
 app.use('/api/tasks', taskRoutes);
+app.use('/api/auth', authRoutes);
 
 // Start Server
 app.listen(PORT, () => {
