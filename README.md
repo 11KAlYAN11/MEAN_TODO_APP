@@ -63,6 +63,12 @@ or
 ng serve
 ```
 
+## Credentials is:
+```
+Username: default
+Password: default
+```
+
 ## Accessing the Application
 - Frontend: http://localhost:4200
 - Backend API: http://localhost:3000/api/tasks
